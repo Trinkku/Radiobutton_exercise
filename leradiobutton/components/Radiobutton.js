@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { View, Text } from 'react-native'
-import {React, useState} from 'react'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
+import React from 'react'
 
 
 /**
@@ -8,27 +8,42 @@ import {React, useState} from 'react'
  * @param options Array containing displayed texts and values for radiobutton
  * @param onPress Used to forward selected value to the component using this radiobutton component --> (you need to be able to read radiobutton selection)
  */
-export default function Radiobutton({options, onPress}) {
-//State variable for value of the radiobutton
-const [value, setValue] = useState(null)
+export default function Radiobutton({options, onPress, initialValue}) {
+
+  //State variable for value of the radiobutton
+const [value, setValue] = useState(initialValue)
 
 /**
  * Function for handling radiobutton selection. State variable is updated and selection is forwarded
- * the component that is using this Rafdiobutton component using onPress as props.
- * @param selected Value of the radiobutton.
+ * the component that is using this Radiobutton component is using onPress- props.
+ * @param selectedValue of the radiobutton.
  */
-function handlePress(selected){
-    setValue(selected);
-    onPress(selected)
+
+
+const handleRadiobuttonPress =(selectedValue)=> {
+    setValue(selectedValue);
+    onPress(selectedValue);
 }
   return (
-    <View>
-      <Text>Radiobutton</Text>
-    </View>
+    <>
+    {
+      options.map((option)=> (
+        <View key={option.value} style={styles.buttonContainer}>{/* one option at a time */}
+          <Text style={styles.label}>{option.label}</Text>
+          <Pressable style={styles.circle} onPress= {()=> handleRadiobuttonPress(option.value)}>
+            {value === option.value && <View style={styles.checkedCircle}/>}
+          </Pressable>
+        
+
+
+        </View>
+      ))
+    }
+    </>
   )
 }
 const styles = StyleSheet.create({
-    buttoncontainer: {
+    buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
@@ -47,6 +62,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderWidth: 1,
         borderColor: '#000',
+        alignItems:'center',
         justifyContent: 'center',
     },
     checkedCircle: {
