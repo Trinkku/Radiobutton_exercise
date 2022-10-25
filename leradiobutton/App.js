@@ -15,7 +15,9 @@ const [choice, setChoice] = useState()
 
   return (
     <View style={styles.container}>
-      <Radiobutton options={options} onPress={(value)=> {setChoice(value)}} initialValue={1}  />
+      <Radiobutton 
+      options={options} 
+      onPress={(value)=> {setChoice(value)}} initialValue={1}  />
       <Text>{choice}</Text>
     </View>
   );
